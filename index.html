@@ -11,9 +11,12 @@
     <main>
         <h2>Parquímetro</h1>
         <p>Digite o valor abaixo</p>
+
         <input id="valorEntrada" type="number">
-        <button id="calcular">Calcular</button>
-        <p id="tempoRestante">Tempo:</p>
+        <button id="calcular" onclick="interfaceUser.calcTempoTroco()">Calcular</button>
+
+        <p id="tempoRestante">Tempo: 0 min.</p>
+        <p id="troco">Troco: R$ 0,00</p>
     </main>
     <script src="script.js"></script>
 </body>
