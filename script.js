@@ -1,9 +1,11 @@
+const pegaEL = (id) => document.getElementById(id);
+
 class processaDados{
     #valor;
     #tempo;
     #troco;
     constructor(){
-        this.#valor = 0;
+        this.#valor = null;
         this.#tempo = 0;
         this.#troco = 0;
     }
@@ -14,30 +16,31 @@ class processaDados{
 
     crono(){
         switch(true){
-            case this.#valor >= 1 && this.#valor <= 1.74:
-                this.#tempo = 30;
+            case this.#valor >= 1 && this.#valor <= 1.74 && this.#tempo <= 90:
+                this.#tempo += 30;
                 break;
-            case this.#valor >= 1.75 && this.#valor <= 2.99:
-                this.#tempo = 60;
+            case this.#valor >= 1.75 && this.#valor <= 2.99 && this.#tempo <= 60:
+                this.#tempo += 60;
                 break;
-            case this.#valor >= 3:
-                this.#tempo = 120;
+            case this.#valor >= 3 && this.#tempo == 0:
+                this.#tempo += 120;
                 break;
-            case this.#valor < 1 || isNaN(this.#valor):
-                alert('Valor insuficiente');
+            case this.#valor <= 0 || isNaN(this.#valor) < this.#tempo < 120:
+                pegaEL('info').textContent = 'Valor insuficiente ou invalido';
+                break;
         }
     }
 
     fazTroco(){
         switch(true){
-            case this.#valor >= 1 && this.#valor <= 1.74:
-                this.#troco = this.#valor - 1;
+            case this.#valor >= 1 && this.#valor <= 1.74 && this.#tempo <= 120:
+                this.#troco += this.#valor - 1;
                 break;
-            case this.#valor >= 1.75 && this.#valor <= 2.99:
-                this.#troco = this.#valor - 1.75;
+            case this.#valor >= 1.75 && this.#valor <= 2.99 && this.#tempo <= 120:
+                this.#troco += this.#valor - 1.75;
                 break;
-            case this.#valor >= 3:
-                this.#troco = this.#valor - 3;
+            case this.#valor >= 3 && this.#tempo <= 120:
+                this.#troco += this.#valor - 3;
                 break;
         }   
     }
@@ -57,7 +60,7 @@ class usuario{
     }
 
     calcTempoTroco(){
-        const valorEnt = parseFloat(document.getElementById('valorEntrada').value);
+        const valorEnt = parseFloat(pegaEL('valorEntrada').value);
         this.usu.insere(valorEnt);
         this.usu.crono();
         this.usu.fazTroco();
@@ -65,10 +68,24 @@ class usuario{
     }
 
     attInterface(tempo, troco){
-        document.getElementById('tempoRestante').textContent = `Tempo: ${tempo} min.`;
-        document.getElementById('troco').textContent = `Troco: R$ ${troco}`; 
-        document.getElementById('valorEntrada').value = '';
+        if(this.usu.tempo == 120){
+            pegaEL('info').textContent = 'Você atingiu o limite de tempo, por favor aguarde.';
+        }
+
+        if(this.usu.tempo == 120){
+            let btn = pegaEL('calcular')
+            btn.onclick = null;
+        }
+
+        
+        pegaEL('tempo').textContent = `Tempo: ${tempo} min.`;
+        pegaEL('troco').textContent = `Troco: R$ ${troco}`; 
+        pegaEL('valorEntrada').value = '';
         console.log(this.usu.tempo, this.usu.troco);
+    }
+
+    res(){
+        pegaEL('troco').textContent = 'Troco: R$ 0,00';
     }
 }
 

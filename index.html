@@ -7,16 +7,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header></header>
     <main>
         <h2>Parquímetro</h1>
-        <p>Digite o valor abaixo</p>
+        <div>
+            <p>R$ 1,00 = 30 min.</p>
+            <p>R$ 1,75 = 60 min.</p>
+            <p>R$ 3,00 = 120 min.</p>
+        </div>
+        <p id="info">Digite o valor abaixo</p>
 
         <input id="valorEntrada" type="number">
         <button id="calcular" onclick="interfaceUser.calcTempoTroco()">Calcular</button>
 
-        <p id="tempoRestante">Tempo: 0 min.</p>
+        <p id="tempo">Tempo: 0 min.</p>
         <p id="troco">Troco: R$ 0,00</p>
+
+        <button id="resgatar" onclick="interfaceUser.res()">Resgatar</button>
     </main>
     <script src="script.js"></script>
 </body>
