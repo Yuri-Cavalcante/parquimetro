@@ -30,3 +30,19 @@ main {
     text-align: center;    
     font-size: 20px;
 }
+
+/* ANIMACAO MOEDA */
+
+.animaMoeda {
+    position: absolute;
+    top: -370px;
+    width: 150px;
+    height: 150px;
+    animation: rotacao 2.5s linear 0s infinite;
+}
+
+@keyframes rotacao{
+    from{transform: rotateY(0deg); top: -370px}
+    to{transform: rotateY(360deg); top: 700px;}
+
+}

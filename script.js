@@ -105,58 +105,71 @@ class usuario{
         console.log(this.usu.tempo, this.usu.troco);
     }
 
-    // resgate(){
-    //     let valor = this.usu.troco;
-    //     let intervalo = 1000;
-
-    //     const progressaoResgate = setInterval(() => {
-    //         console.log(intervalo);
-    //         return intervalo -= 100; 
-    //     }, 1000);
-
-    //     setTimeout(() => {
-    //         clearInterval(progressaoResgate);
-    //     }, 9000);
-
-        
-    //     setInterval(() => {
-    //         if(valor >= 1){
-    //             valor -= 1; 
-    //             pegaEL('troco').textContent = `Troco: R$ ${valor.toFixed(2)}`;
-    //         } else if(valor < 1 && valor > 0){
-    //             valor -= 0.01;
-    //             pegaEL('troco').textContent = `Troco: R$ ${valor.toFixed(2)}`;   
-    //         }
-    //     }, intervalo);
-    // }
-
     resgate() {
-    let valor = this.usu.troco;
-    let intervalo = 1000;
+        let troco = this.usu.troco;
+        let intervalo = 1000;
 
-    function atualizarTroco() {
-        if (valor >= 1) {
-            valor -= 1;
-        } else if (valor < 1 && valor > 0) {
-            valor -= 0.01;
+        function atualizarTroco() {
+            if (troco >= 1) {
+                troco -= 1;
+            } else if (troco < 1 && troco > 0) {
+                troco -= 0.01;
+            }
+            pegaEL('troco').textContent = `Troco: R$ ${troco.toFixed(2)}`;
+
+            if (troco > 0) {
+                intervalo = Math.max(100, intervalo - 100); // diminui até 100ms mínimo
+                setTimeout(atualizarTroco, intervalo);
+                console.log(intervalo);
+            }
+            return troco;
         }
-        pegaEL('troco').textContent = `Troco: R$ ${valor.toFixed(2)}`;
-
-        if (valor > 0) {
-            intervalo = Math.max(50, intervalo - 50); // diminui até 100ms mínimo
-            setTimeout(atualizarTroco, intervalo);
-            console.log(intervalo);
-        }
-    }
-
+        
         atualizarTroco();
+
+        const liberador = setInterval(() => {
+            this.animacaoRes()
+
+            if(troco <= 0){
+                clearInterval(liberador);
+                console.log("Intervalo encerrado!");
+            }
+        }, 250);
+ 
+        const btn = pegaEL('resgatar');
+        btn.onclick = null;
     }
 
+    // ANIMACAO RESGATE
 
-    resetResgatar(){
-        pegaEL('troco').textContent = 'Troco: R$ 0,00';
+    animacaoRes() {
+        
+   
+        // const containerMoeda = document.createElement('container')
+        // containerMoeda.className = 'containerMoeda';
+        // containerMoeda.appendChild(novaMoeda);
+
+        if(this.usu.troco > 0){
+            const novaMoeda = document.createElement('img');
+            novaMoeda.src = 'imgs/1real.png';
+            novaMoeda.className = 'animaMoeda';
+            novaMoeda.style.left = `${Math.random() * (1001 - 1) + 1}px`;
+            
+            document.body.appendChild(novaMoeda);
+            console.log('moeda criada');
+
+            setTimeout(() => {
+                novaMoeda.remove();
+            }, 3000);
+        }
+
+        // document.body.appendChild(novaMoeda);
+        // console.log('moeda criada');
+
+        // setTimeout(() => {
+        //     novaMoeda.remove();
+        // }, 3000);
     }
-
 
 }
 
